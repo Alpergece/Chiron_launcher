@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<launch> 
+    <!-- Zed related params -->
+    <arg name="delay"      default="0" />
+    <arg name="zed_launch_file"      default="$(find zed_wrapper)/launch/zed2.launch" />
+    <arg name="zed_node"      default="zed_node" />
+
+    <!-- VR related params --> 
+    <arg name="delay_server_vr"      default="0" />
+    <arg name="delay_vive"      default="2" />
+    <arg name="delay_vive_tracker_tiago"      default="5" />
+
+    <!-- ZED Camera -->
+    <group ns="zed_camera_launcher">
+        <node name="delayed_zed2_launch" pkg="chiron_launcher" type="delayed_launch.py" output="screen">
+	    <param name="launch_file" value="$(arg zed_launch_file)"/>
+	    <param name="delay" value="$(arg delay)"/>
+            <param name="launch_args" value="--node_name $(arg zed_node);--camera_model zed2;--publish_urdf true;--camera_name zed2;--base_frame base_link;--cam_pos_x 0.5;--cam_pos_y 0.5;--cam_pos_z 0.5;--cam_roll 0.0;--cam_pitch 0.0;--cam_yaw 0.0;"/> 
+            <!-- add other parameters --> 
+        </node>
+    </group>
+
+    <!-- Launch VR Server -->
+    <group ns="server_vr_launcher">
+        <node name="delayed_server_vr_launch" pkg="chiron_launcher" type="delayed_launch.py" output="screen">
+	    <param name="launch_file" value="$(find vive_ros)/launch/server_vr.launch"/>
+	    <param name="delay" value="$(arg delay_server_vr)"/> 
+        </node>
+    </group>
+
+    <!-- Launch VR Vive-->
+    <group ns="vive_launcher">
+        <node name="delayed_vive_launch" pkg="chiron_launcher" type="delayed_launch.py" output="screen">
+	    <param name="launch_file" value="$(find vive_ros)/launch/vive.launch"/>
+	    <param name="delay" value="$(arg delay_vive)"/> 
+        </node>
+    </group>
+
+    <!-- Launch Tracker -->
+    <node name="delayed_vive_tracker_tiago_launch" pkg="chiron_launcher" type="delayed_launch.py" output="screen">
+	<param name="launch_file" value="$(find vive_tracker)/launch/vive_tracker_tiago.launch"/>
+	<param name="delay" value="$(arg delay_vive_tracker_tiago)"/> 
+    </node>
+
+</launch>
+

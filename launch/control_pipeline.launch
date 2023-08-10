@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<launch>
+	<!-- TODO select whether you want impedance or not, or head control or not, or right arm control or not, left arm control or not; gripper control yes or not -->
+	<!-- Kalman Filter + Null space control -->
+        <node name="tiago_reflex_real_local" pkg="tiago_reflex" type="tiago_reflex_real_local" output="screen"/>
+
+	<!-- Head control  -->
+        <node name="head_track" pkg="tiago_teleope" type="head_track.py" output="screen"/>
+
+	<!-- Right arm control -->
+	<node name="right_pure_clutch" pkg="tiago_teleope" type="right_pure_clutch.py" output="screen"/>
+
+	<!-- Left arm control -->		
+	<node name="left_pure_clutch" pkg="tiago_teleope" type="left_pure_clutch.py" output="screen"/>
+
+	<!-- Gripper control -->
+	<node name="dual_gripper_trigger_controller" pkg="tiago_teleope" type="dual_gripper_trigger_controller.py" output="screen"/>
+
+</launch>
